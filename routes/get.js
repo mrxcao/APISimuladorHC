@@ -10,9 +10,14 @@ module.exports = (app) => {
 		let query = 'select * from dbo.PRODUTO';
 		console.log('req.body', req.query);
 
-		if (req?.query) {
-			console.log('1', 1);
-			query += ' where CO_PRODUTO =  ' + req.query.id;
+		if (req?.query?.id) {
+			if (parseInt(req.query.id)) {
+				query += ' where CO_PRODUTO =  ' + req.query.id;
+			}
+			else {
+				res.send({ ok:true, data:{} });
+				return true;
+			}
 		}
 		const data = await sql.query(query);
 		res.send({ ok:true, data });
