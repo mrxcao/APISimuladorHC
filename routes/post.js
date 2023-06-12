@@ -1,5 +1,5 @@
 const simular = require('../modules/simular');
-
+// const eventHub = require('../modules/eventHub');
 
 module.exports = (app) => {
 	app.post('/simulacao', async (req, res) => {
@@ -12,6 +12,9 @@ module.exports = (app) => {
 			throw 'valorDesejado e prazo são obrigatorios';
 		}
 		const result = await simular.emprestimo(valorDesejado, prazo);
+
+		// eventHub.send(result);
+
 		res.send(result);
 
 	});
