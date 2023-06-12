@@ -25,9 +25,9 @@ const sac = async (valorDesejado, prazo, taxa) => {
 	while (numero <= prazo) {
 		result.parcelas.push({
 			'numero': numero,
-			'valorAmortizacao': amortizacao,
-			'valorJuros': valJuros,
-			'valorPrestacao': amortizacao + valJuros,
+			'valorAmortizacao': parseFloat(amortizacao.toFixed(2)),
+			'valorJuros': parseFloat(valJuros.toFixed(2)),
+			'valorPrestacao': parseFloat((amortizacao + valJuros).toFixed(2)),
 		});
 
 		valJuros = valJuros - diminuicao;
@@ -41,20 +41,26 @@ const price = async (valorDesejado, prazo, taxa) => {
 		'parcelas': [],
 	};
 
-	const amortizacao = valorDesejado / prazo;
-	const diminuicao = amortizacao * taxa;
+	const vJuros = taxa / (1 - Math.pow(1 + taxa, -prazo));
+	const prestacao = valorDesejado * vJuros;
 
-	let valJuros = valorDesejado * taxa;
+	let juros = valorDesejado * taxa;
+	let amortizacao = prestacao - juros;
+
+	let saldo = valorDesejado;
 	let numero = 1;
 	while (numero <= prazo) {
 		result.parcelas.push({
 			'numero': numero,
-			'valorAmortizacao': amortizacao,
-			'valorJuros': valJuros,
-			'valorPrestacao': amortizacao + valJuros,
+			'valorAmortizacao': parseFloat(amortizacao.toFixed(2)),
+			'valorJuros': parseFloat(juros.toFixed(2)),
+			'valorPrestacao':  parseFloat(prestacao.toFixed(2)),
 		});
 
-		valJuros = valJuros - diminuicao;
+		saldo = saldo - amortizacao;
+		juros = saldo * taxa;
+		amortizacao = prestacao - juros;
+
 		numero++;
 	}
 	return result;
