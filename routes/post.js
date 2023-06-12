@@ -13,14 +13,12 @@ module.exports = (app) => {
 			throw 'valorDesejado e prazo são obrigatorios';
 		}
 
-		console.log('valorDesejado', valorDesejado);
-		console.log('prazo', prazo);
+		/*
 		const sac = await simular.sac(valorDesejado, prazo);
 		const price = await simular.price(valorDesejado, prazo);
-		const result = {
-			sac,
-			price,
-		};
+*/
+
+		const result = await simular.emprestimo(valorDesejado, prazo);
 
 
 		res.send({ text:'teste ok', req: req.body, result });
